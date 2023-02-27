@@ -11,13 +11,20 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+const token = localStorage.getItem("token");
 
-axios.defaults.baseURL = "https://api.example.com";
-axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem(
-    "token"
-)}`;
-axios.defaults.headers.post["Content-Type"] =
-    "application/x-www-form-urlencoded";
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BASE_URL,
+    headers: {
+        common: {
+            Authorization: `Bearer ${token}`,
+        },
+    },
+});
+
+
+// app.config.globalProperties.$axios = axiosInstance;
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

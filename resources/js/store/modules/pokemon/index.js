@@ -5,6 +5,7 @@ import mutations from "./mutations.js";
 const state = {
     pokemons: [],
     currentpokemon: null,
+    pagination: null,
 };
 
 export default {

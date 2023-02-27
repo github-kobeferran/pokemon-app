@@ -26,7 +26,8 @@ class PokemonController extends Controller
         $data->results = collect($data->results)->map(function ($item) use ($api) {
             $item->name = $item->name;
             $item->url = $item->url;
-            $item->cover = json_decode($api->pokemon($item->name))->sprites->front_default;
+            // dd(json_decode($api->pokemon($item->name))->sprites->other)->dream_world;
+            $item->cover = json_decode($api->pokemon($item->name))->sprites->other->dream_world->front_default;
 
             return $item;
         });
