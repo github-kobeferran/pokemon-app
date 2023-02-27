@@ -1,38 +1,27 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 col-md-8">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-1">
-                                <h3>Ionic Native</h3>
-                                <p>
-                                    A curated set of ES5/ES6/TypeScript wrappers
-                                    for plugins to easily add any native
-                                    functionality to your Ionic apps.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-2">
-                                <h3>UI Components</h3>
-                                <p>
-                                    Tabs, buttons, inputs, lists, cards, and
-                                    more! A comprehensive library of mobile UI
-                                    components, ready to go.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-3">
-                                <h3>Theming</h3>
-                                <p>
-                                    Learn how to easily customize and modify
-                                    your app’s design to fit your brand across
-                                    all mobile platform styles.
-                                </p>
-                            </div>
+            <div class="col text-center">
+                <h1>Pokemon List</h1>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-6 col-xl-3 text-center">
+                    <div
+                        class="card"
+                        style="width: 18rem"
+                        v-for="pokemon in pokemons"
+                        :key="pokemon.id"
+                    >
+                        <img :src="fetchPokemonBackground(pokemon.id)" alt="..." />
+                        <div class="card-body">
+                            <p class="card-text">
+                                Some quick example text to build on the card
+                                title and make up the bulk of the card's
+                                content.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -49,17 +38,24 @@ export default {
         return {};
     },
     mounted() {
-        this.fetchpokemons();
+        this.fetchPokemons();
     },
-    computed: {},
+    computed: {
+        ...mapGetters(
+            {
+                pokemons: "getPokemons",
+            },
+            "pokemon"
+        ),
+    },
     methods: {
-        ...mapActions(["fetchpokemons"], "pokemon"),
+        ...mapActions(["fetchPokemons", "fetchPokemonBackground"], "pokemon"),
     },
 };
 </script>
 
 <style scoped>
-body {
+/* body {
     font-family: "Nunito", sans-serif;
     padding: 50px;
 }
@@ -115,5 +111,5 @@ body {
     .card {
         margin: 20px;
     }
-}
+} */
 </style>

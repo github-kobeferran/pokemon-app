@@ -11,8 +11,6 @@ export default {
     components: {
         Home,
     },
-    mounted() {
-        console.log("Component mounted.");
-    },
+
 };
 </script>

@@ -1,24 +1,33 @@
 const actions = {
-    async fetchpokemons({ commit }) {
+    async fetchPokemons({ commit }) {
         const response = await axios.get("https://pokeapi.co/api/v2/pokemon/?");
-        console.log(response);
-        // commit("setpokemons", response.data);
+        commit("setPokemons", response.data.results);
     },
-    async fetchCurrentpokemon({ commit }) {
-        const response = await axios.get("/api/pokemon");
-        commit("setCurrentpokemon", response.data);
-    },
-    async updatepokemon({ commit }, pokemonData) {
-        const response = await axios.put(
-            `/api/pokemons/${pokemonData.id}`,
-            pokemonData
+    async fetchPokemonBackground({ commit }, id) {
+        const response = await axios.get(
+            `https://pokeapi.co/api/v2/pokemon/${id}`
         );
-        commit("setCurrentpokemon", response.data);
+        console.log(response, "asdfasdf");
+        // const response = await axios.get(
+        //     `https://pokeapi.co/api/v2/pokemon/${payload}`
+        // );
+        // commit("setPokemons", response.data.results);
     },
-    async deletepokemon({ dispatch }, pokemonId) {
-        await axios.delete(`/api/pokemons/${pokemonId}`);
-        dispatch("fetchpokemons");
-    },
+    // async fetchCurrentPokemon({ commit }) {
+    //     const response = await axios.get("/api/pokemon");
+    //     commit("setCurrentpokemon", response.data);
+    // },
+    // async updatePokemon({ commit }, pokemonData) {
+    //     const response = await axios.put(
+    //         `/api/pokemons/${pokemonData.id}`,
+    //         pokemonData
+    //     );
+    //     commit("setCurrentpokemon", response.data);
+    // },
+    // async deletePokemon({ dispatch }, pokemonId) {
+    //     await axios.delete(`/api/pokemons/${pokemonId}`);
+    //     dispatch("fetchPokemons");
+    // },
 };
 
 export default actions;
