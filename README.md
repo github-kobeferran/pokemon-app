@@ -1,1 +1,1 @@
-#pokemon app
+## Pokemon APP by Kobe Ferran
