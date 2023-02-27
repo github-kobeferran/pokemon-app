@@ -13,7 +13,6 @@ class PokemonController extends Controller
      */
     public function index(Request $request)
     {
-
         $api = new PokeApi;
 
         $data = json_decode(

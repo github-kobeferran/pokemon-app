@@ -1,18 +1,10 @@
 const actions = {
     async fetchPokemons({ commit }) {
-        const response = await axios.get("https://pokeapi.co/api/v2/pokemon/?");
+        const response = await axios.get(route("api.pokemons.index"));
+
         commit("setPokemons", response.data.results);
     },
-    async fetchPokemonBackground({ commit }, id) {
-        const response = await axios.get(
-            `https://pokeapi.co/api/v2/pokemon/${id}`
-        );
-        console.log(response, "asdfasdf");
-        // const response = await axios.get(
-        //     `https://pokeapi.co/api/v2/pokemon/${payload}`
-        // );
-        // commit("setPokemons", response.data.results);
-    },
+
     // async fetchCurrentPokemon({ commit }) {
     //     const response = await axios.get("/api/pokemon");
     //     commit("setCurrentpokemon", response.data);

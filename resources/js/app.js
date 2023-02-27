@@ -11,6 +11,9 @@ import store from "./store/store";
 
 import App from "./components/App.vue";
 
+import { ZiggyVue } from "/vendor/tightenco/ziggy/dist/vue.es.js";
+import { Ziggy } from "./ziggy";
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -22,5 +25,9 @@ const app = createApp({});
 app.component("App", App);
 
 app.use(store);
+
+app.use(ZiggyVue, Ziggy);
+
+route("home", undefined, undefined, Ziggy);
 
 app.mount("#app");

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <h1>Pokemon List</h1>
+                <h1>Pokemon List </h1>
             </div>
         </div>
 
@@ -15,12 +15,10 @@
                         v-for="pokemon in pokemons"
                         :key="pokemon.id"
                     >
-                        <img :src="fetchPokemonBackground(pokemon.id)" alt="..." />
+                        <img :src="pokemon.cover" alt="..." />
                         <div class="card-body">
                             <p class="card-text">
-                                Some quick example text to build on the card
-                                title and make up the bulk of the card's
-                                content.
+                                {{pokemon.name}}
                             </p>
                         </div>
                     </div>
@@ -49,7 +47,7 @@ export default {
         ),
     },
     methods: {
-        ...mapActions(["fetchPokemons", "fetchPokemonBackground"], "pokemon"),
+        ...mapActions(["fetchPokemons"], "pokemon"),
     },
 };
 </script>
