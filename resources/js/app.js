@@ -39,4 +39,6 @@ app.use(router);
 
 route("home", undefined, undefined, Ziggy);
 
+// app.config.globalProperties.$axios = axiosInstance;
+
 app.mount("#app");

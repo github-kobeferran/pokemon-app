@@ -9,8 +9,7 @@ const actions = {
         const { data, links, ...rest } = response.data;
 
         commit("setPagination", rest);
-
-        commit("setPokemons", response.data.data);
+        commit("setPokemons", data);
     },
 
     // async fetchCurrentPokemon({ commit }) {

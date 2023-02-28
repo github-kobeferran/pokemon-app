@@ -1,6 +1,7 @@
 <template>
     <div class="container-fluid">
         <router-link to="/home">Home</router-link>
+        <router-link to="/home">Home</router-link>
 
         <div class="row">
             <div class="col text-center">
@@ -40,6 +41,9 @@ export default {
     },
     created() {
         this.fetchPokemons();
+    },
+
+    mounted(){
     },
     computed: {
         ...mapGetters(

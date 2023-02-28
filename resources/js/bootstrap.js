@@ -7,23 +7,18 @@ import 'bootstrap';
  */
 
 import axios from 'axios';
-window.axios = axios;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios = axios;
 
 const token = localStorage.getItem("token");
 
-const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
-    headers: {
-        common: {
-            Authorization: `Bearer ${token}`,
-        },
-    },
-});
+window.axios.defaults.baseURL = document.head.querySelector(
+    'meta[name="api-base-url"]'
+).content;
 
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+window.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-// app.config.globalProperties.$axios = axiosInstance;
 
 
 /**

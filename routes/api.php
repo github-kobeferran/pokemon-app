@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PokemonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->name('api.')->group(function () {
-    // Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::prefix('v1')->name('api.')->group(function () {
     Route::apiResources([
         'pokemons' => PokemonController::class,
     ]);
+});
+
+Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
 });
