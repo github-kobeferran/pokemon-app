@@ -5,6 +5,9 @@ const mutations = {
     setCurrentpokemon(state, pokemon) {
         state.currentPokemon = pokemon;
     },
+    setPagination(state, pagination) {
+        state.pagination = pagination;
+    },
 };
 
 export default mutations;

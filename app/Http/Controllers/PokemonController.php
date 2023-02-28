@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pokemon;
 use Illuminate\Http\Request;
 use PokePHP\PokeApi;
 
@@ -13,26 +14,14 @@ class PokemonController extends Controller
      */
     public function index(Request $request)
     {
-        $api = new PokeApi;
 
-        $data = json_decode(
-            $api->resourceList(
-                'pokemon',
-                $request->query('limit'),
-                $request->query('offset')
-            )
-        );
 
-        $data->results = collect($data->results)->map(function ($item) use ($api) {
-            $item->name = $item->name;
-            $item->url = $item->url;
-            // dd(json_decode($api->pokemon($item->name))->sprites->other)->dream_world;
-            $item->cover = json_decode($api->pokemon($item->name))->sprites->other->dream_world->front_default;
-
-            return $item;
-        });
-
-        return $data;
+        return Pokemon::paginate(
+            $request->query('perPage') ?? 15,
+            ['*'],
+            'page',
+            $request->query('page') ?? 1,
+        )->withQueryString();
     }
 
     /**

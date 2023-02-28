@@ -1,16 +1,19 @@
 <template>
     <div class="container-fluid">
-        <Home />
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-import Home from "./Home/Index.vue";
+import PokemonIndex from "./Pokemon/Index.vue";
 
 export default {
     components: {
-        Home,
+        PokemonIndex,
     },
+    mounted(){
+        this.$route.re
+    }
 
 };
 </script>

@@ -44,9 +44,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Determine if the user is an administrator.
-     */
     protected function name(): Attribute
     {
         return new Attribute(

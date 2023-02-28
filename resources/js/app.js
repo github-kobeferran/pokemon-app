@@ -14,6 +14,11 @@ import App from "./components/App.vue";
 import { ZiggyVue } from "/vendor/tightenco/ziggy/dist/vue.es.js";
 import { Ziggy } from "./ziggy";
 
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+
+import router from "./router";
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -27,6 +32,10 @@ app.component("App", App);
 app.use(store);
 
 app.use(ZiggyVue, Ziggy);
+
+app.use(ElementPlus);
+
+app.use(router);
 
 route("home", undefined, undefined, Ziggy);
 

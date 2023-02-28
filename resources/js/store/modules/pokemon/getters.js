@@ -4,4 +4,5 @@ const getters = {
     getPagination: (state) => state.pagination,
 };
 
+
 export default getters;

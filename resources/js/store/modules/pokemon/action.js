@@ -1,8 +1,16 @@
 const actions = {
-    async fetchPokemons({ commit }) {
-        const response = await axios.get(route("api.pokemons.index"));
+    async fetchPokemons({ commit }, payload) {
+        const response = await axios.get(
+            route("api.pokemons.index", {
+                page: payload ? payload.page : 1,
+            })
+        );
 
-        commit("setPokemons", response.data.results);
+        const { data, links, ...rest } = response.data;
+
+        commit("setPagination", rest);
+
+        commit("setPokemons", response.data.data);
     },
 
     // async fetchCurrentPokemon({ commit }) {
