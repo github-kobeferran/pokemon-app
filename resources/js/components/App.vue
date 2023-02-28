@@ -105,12 +105,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(
+        ...mapGetters('auth',
             {
                 isAuth: "getIsAuthenticated",
                 user: "getUser",
             },
-            "auth"
         ),
     },
     watch: {
@@ -129,7 +128,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["logout", "loginWithToken"], "auth"),
+        ...mapActions("auth", ["logout", "loginWithToken"]),
         handleLogout() {
             this.logout().then((res) => {
                 this.$router.push("/");

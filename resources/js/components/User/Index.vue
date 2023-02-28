@@ -37,19 +37,17 @@ export default {
     data() {
         return {
             search: "",
+            search: "",
         };
     },
     mounted() {
         this.fetchUsers();
     },
     computed: {
-        ...mapGetters(
-            {
-                tableData: "getUsers",
-                pagination: "getUserPagination",
-            },
-            "user"
-        ),
+        ...mapGetters("user", {
+            tableData: "getUsers",
+            pagination: "getUserPagination",
+        }),
         filterTableData() {
             return this.tableData.filter(
                 (data) =>
@@ -59,7 +57,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["fetchUsers"], "user"),
+        ...mapActions("user", ["fetchUsers"]),
         handleView(index, row) {
             console.log(index, "index");
             console.log(row, "row");

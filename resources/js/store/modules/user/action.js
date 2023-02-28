@@ -8,10 +8,21 @@ const actions = {
 
         const { data, links, ...rest } = response.data;
 
-        console.log();
-
         commit("setPagination", rest);
         commit("setUsers", data);
+    },
+    updateUser({ commit }, { id, fields }) {
+        return new Promise((resolve, reject) => {
+            axios
+                .patch(route("api.users.update", id), fields)
+                .then((response) => {
+                    commit("auth/setUser", response.data, { root: true });
+                    resolve(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        });
     },
 
     // async fetchPokemons({ commit }, payload) {
@@ -26,18 +37,15 @@ const actions = {
     //     commit("setPagination", rest);
     //     commit("setPokemons", data);
     // },
-    async fetchCurrentUser({ commit }) {
-        const response = await axios.get("/api/user");
-        commit("setCurrentUser", response.data);
-    },
-    async updateUser({ commit }, userData) {
-        const response = await axios.put(`/api/users/${userData.id}`, userData);
-        commit("setCurrentUser", response.data);
-    },
-    async deleteUser({ dispatch }, userId) {
-        await axios.delete(`/api/users/${userId}`);
-        dispatch("fetchUsers");
-    },
+    // async fetchCurrentUser({ commit }) {
+    //     const response = await axios.get("/api/user");
+    //     commit("setCurrentUser", response.data);
+    // },
+
+    // async deleteUser({ dispatch }, userId) {
+    //     await axios.delete(`/api/users/${userId}`);
+    //     dispatch("fetchUsers");
+    // },
 };
 
 export default actions;

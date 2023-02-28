@@ -39,17 +39,16 @@ export default {
     },
     created() {
         this.fetchPokemons();
-
     },
     mounted() {},
     computed: {
-
         ...mapGetters(
+            "pokemon"
+,
             {
                 pokemons: "getPokemons",
                 pagination: "getPagination",
             },
-            "pokemon"
         ),
         pageTitle() {
             if (this.isAuth) {
@@ -60,7 +59,7 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["fetchPokemons"], "pokemon"),
+        ...mapActions("pokemon", ["fetchPokemons"], ),
         pageChanged(number) {
             this.fetchPokemons({
                 page: number,

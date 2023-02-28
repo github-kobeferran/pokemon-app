@@ -83,16 +83,15 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(
+        ...mapGetters( 'auth',
             {
                 isAuth: "getIsAuthenticated",
                 user: "getUser",
             },
-            "auth"
         ),
     },
     methods: {
-        ...mapActions(["login"], "auth"),
+        ...mapActions("auth", ["login"], ),
         async onSubmit() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {

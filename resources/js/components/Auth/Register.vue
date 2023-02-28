@@ -66,6 +66,7 @@
 import { mapGetters, mapActions } from "vuex";
 import { h } from "vue";
 import { ElNotification } from "element-plus";
+import { formRules } from '../../mixins/user.js'
 
 export default {
     data() {
@@ -77,70 +78,21 @@ export default {
                 password: "",
                 password_confirmation: "",
             },
-            rules: {
-                first_name: [
-                    {
-                        required: true,
-                        message: "First Name is required",
-                        trigger: "blur",
-                    },
-                ],
-                last_name: [
-                    {
-                        required: true,
-                        message: "Last Name is required",
-                        trigger: "blur",
-                    },
-
-                ],
-                email: [
-                    {
-                        required: true,
-                        message: "Email is required",
-                        trigger: "blur",
-                    },
-                    {
-                        type: 'email',
-                        message: "Enter a correct email address",
-                        trigger: "blur",
-                    },
-                ],
-                password: [
-                    {
-                        required: true,
-                        message: "Password is required",
-                        trigger: "blur",
-                    },
-                    {
-                        validator: (rule, value) => value === this.form.password_confirmation,
-                        message: "Passwords do not match",
-                    }
-                ],
-                password_confirmation: [
-                    {
-                        required: true,
-                        message: "Password Confirmation is required",
-                        trigger: "blur",
-                    },
-                    {
-                        validator: (rule, value) => value === this.form.password,
-                        message: "Passwords do not match",
-                    }
-                ],
-            },
+            rules: formRules,
         };
     },
     computed: {
         ...mapGetters(
+            "auth"
+,
             {
                 isAuth: "getIsAuthenticated",
                 user: "getUser",
             },
-            "auth"
         ),
     },
     methods: {
-        ...mapActions(["register"], "auth"),
+        ...mapActions("auth", ["register"], ),
           async onSubmit() {
             this.$refs["form"].validate(async (valid) => {
                 if (valid) {

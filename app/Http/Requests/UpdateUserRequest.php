@@ -21,10 +21,11 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+
         return [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email,' . $this->user->id,
             'dob' => 'nullable|date_format:Y-m-d',
         ];
     }
