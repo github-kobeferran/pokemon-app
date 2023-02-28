@@ -1,8 +1,31 @@
 const actions = {
-    async fetchUsers({ commit }) {
-        const response = await axios.get("/api/users");
-        commit("setUsers", response.data);
+    async fetchUsers({ commit }, payload) {
+        const response = await axios.get(
+            route("api.users.index", {
+                page: payload ? payload.page : 1,
+            })
+        );
+
+        const { data, links, ...rest } = response.data;
+
+        console.log();
+
+        commit("setPagination", rest);
+        commit("setUsers", data);
     },
+
+    // async fetchPokemons({ commit }, payload) {
+    //     const response = await axios.get(
+    //         route("api.pokemons.index", {
+    //             page: payload ? payload.page : 1,
+    //         })
+    //     );
+
+    //     const { data, links, ...rest } = response.data;
+
+    //     commit("setPagination", rest);
+    //     commit("setPokemons", data);
+    // },
     async fetchCurrentUser({ commit }) {
         const response = await axios.get("/api/user");
         commit("setCurrentUser", response.data);

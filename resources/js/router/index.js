@@ -5,32 +5,44 @@ import App from "../components/App.vue";
 import PokemonIndex from "../components/Pokemon/Index.vue";
 import Login from "../components/Auth/Login.vue";
 import Register from "../components/Auth/Register.vue";
+import UserIndex from "../components/User/Index.vue";
+import Profile from "../components/User/Profile.vue";
 
 const routes = [
     {
         path: "/",
-        name: "PokemonIndex",
+        name: "pokemonindex",
         component: PokemonIndex,
     },
     {
         path: "/home",
-        name: "Home",
+        name: "home",
         component: Home,
     },
     {
         path: "/pokemons",
-        name: "Pokemons",
+        name: "pokemons",
         component: PokemonIndex,
     },
     {
         path: "/login",
-        name: "Login",
+        name: "login",
         component: Login,
     },
     {
         path: "/register",
-        name: "Register",
+        name: "register",
         component: Register,
+    },
+    {
+        path: "/users",
+        name: "users",
+        component: UserIndex,
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: Profile,
     },
 ];
 

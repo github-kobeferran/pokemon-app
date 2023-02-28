@@ -97,8 +97,6 @@ export default {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
                     this.login(this.form).then(res => {
-
-                        console.log('asdfasdfqwe123')
                         this.$router.push("/");
                     });
                 }

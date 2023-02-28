@@ -5,6 +5,9 @@ const mutations = {
     setCurrentUser(state, user) {
         state.currentUser = user;
     },
+    setPagination(state, pagination) {
+        state.pagination = pagination;
+    },
 };
 
 export default mutations;
