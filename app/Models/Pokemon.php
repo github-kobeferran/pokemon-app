@@ -23,4 +23,19 @@ class Pokemon extends Model
 
         return json_decode($api->pokemon($this->id))->sprites->other->dream_world->front_default;
     }
+
+    public function usersWhoFavorited()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('type', 'favorite');
+    }
+
+    public function usersWhoLiked()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('type', 'liked');
+    }
+
+    public function usersWhoHated()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('type', 'hated');
+    }
 }

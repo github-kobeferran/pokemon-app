@@ -25,27 +25,4 @@ export const formRules = {
             trigger: "blur",
         },
     ],
-    password: [
-        {
-            required: true,
-            message: "Password is required",
-            trigger: "blur",
-        },
-        {
-            validator: (rule, value) =>
-                value === this.form.password_confirmation,
-            message: "Passwords do not match",
-        },
-    ],
-    password_confirmation: [
-        {
-            required: true,
-            message: "Password Confirmation is required",
-            trigger: "blur",
-        },
-        {
-            validator: (rule, value) => value === this.form.password,
-            message: "Passwords do not match",
-        },
-    ],
 };

@@ -33,7 +33,9 @@ class AuthController extends Controller
         $token = $user->createToken('pokemon_app_token')->plainTextToken;
 
         $response = [
-            'user' => new UserResource($user),
+            'user' => new UserResource($user->load([
+                'pokemons'
+            ])),
             'token' => $token,
         ];
 
@@ -57,7 +59,9 @@ class AuthController extends Controller
         $token = $user->createToken('pokemon_app_token')->plainTextToken;
 
         $response = [
-            'user' => new UserResource($user),
+            'user' => new UserResource($user->load([
+                'pokemons'
+            ])),
             'token' => $token,
         ];
 
@@ -80,7 +84,9 @@ class AuthController extends Controller
         if ($token && !$token->expiresAt) {
             $user = $token->tokenable;
             $response = [
-                'user' => new UserResource($user),
+                'user' => new UserResource($user->load([
+                    'pokemons'
+                ])),
                 'token' => $token->token,
             ];
 

@@ -48,7 +48,9 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        return response(new UserResource($user))->setStatusCode(202);
+        return response(new UserResource($user->load([
+            'pokemons'
+        ])))->setStatusCode(202);
     }
 
     /**

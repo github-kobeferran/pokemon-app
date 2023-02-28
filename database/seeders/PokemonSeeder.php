@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pokemon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,9 @@ class PokemonSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('pokemons')->truncate();
+        DB::statement("SET foreign_key_checks=0");
+        Pokemon::truncate();
+        DB::statement("SET foreign_key_checks=1");
 
         $api = new PokeApi;
 

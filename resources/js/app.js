@@ -19,6 +19,8 @@ import "element-plus/dist/index.css";
 
 import router from "./router";
 
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -40,5 +42,9 @@ app.use(router);
 route("home", undefined, undefined, Ziggy);
 
 // app.config.globalProperties.$axios = axiosInstance;
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component);
+}
 
 app.mount("#app");

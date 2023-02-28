@@ -53,4 +53,24 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function pokemons()
+    {
+        return $this->belongsToMany(Pokemon::class)->withPivot('type');
+    }
+
+    public function favoritePokemon()
+    {
+        return $this->belongsToMany(Pokemon::class)->wherePivot('type', 'favorite');
+    }
+
+    public function likedPokemons()
+    {
+        return $this->belongsToMany(Pokemon::class)->wherePivot('type', 'liked');
+    }
+
+    public function hatedPokemons()
+    {
+        return $this->belongsToMany(Pokemon::class)->wherePivot('type', 'hated');
+    }
 }

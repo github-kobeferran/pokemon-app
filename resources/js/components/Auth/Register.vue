@@ -40,7 +40,10 @@
                             />
                         </el-form-item>
 
-                        <el-form-item label="Password Confirmation" prop="password_confirmation">
+                        <el-form-item
+                            label="Password Confirmation"
+                            prop="password_confirmation"
+                        >
                             <el-input
                                 v-model="form.password_confirmation"
                                 type="password"
@@ -49,7 +52,7 @@
                             />
                         </el-form-item>
 
-                        <el-form-item >
+                        <el-form-item>
                             <el-button type="primary" @click="onSubmit"
                                 >Login</el-button
                             >
@@ -64,9 +67,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { h } from "vue";
 import { ElNotification } from "element-plus";
-import { formRules } from '../../mixins/user.js'
+import { formRules } from "../../mixins/user.js";
 
 export default {
     data() {
@@ -78,38 +80,60 @@ export default {
                 password: "",
                 password_confirmation: "",
             },
-            rules: formRules,
+            rules: {
+                ...formRules,
+                password: [
+                    {
+                        required: true,
+                        message: "Password is required",
+                        trigger: "blur",
+                    },
+                    {
+                        validator: (rule, value) =>
+                            value === this.form.password_confirmation,
+                        message: "Passwords do not match",
+                    },
+                ],
+                password_confirmation: [
+                    {
+                        required: true,
+                        message: "Password Confirmation is required",
+                        trigger: "blur",
+                    },
+                    {
+                        validator: (rule, value) =>
+                            value === this.form.password,
+                        message: "Passwords do not match",
+                    },
+                ],
+            },
         };
     },
     computed: {
-        ...mapGetters(
-            "auth"
-,
-            {
-                isAuth: "getIsAuthenticated",
-                user: "getUser",
-            },
-        ),
+        ...mapGetters("auth", {
+            isAuth: "getIsAuthenticated",
+            user: "getUser",
+        }),
     },
     methods: {
-        ...mapActions("auth", ["register"], ),
-          async onSubmit() {
+        ...mapActions("auth", ["register"]),
+        async onSubmit() {
             this.$refs["form"].validate(async (valid) => {
                 if (valid) {
                     try {
                         const response = await this.register(this.form);
                         ElNotification({
-                            title: 'Logged in!',
-                            type: 'success'
-                        })
+                            title: "Logged in!",
+                            type: "success",
+                        });
 
                         this.$router.push("/");
                     } catch (error) {
-                         ElNotification({
-                            title: 'Error',
+                        ElNotification({
+                            title: "Error",
                             message: error.response.data.message,
-                            type: 'error'
-                        })
+                            type: "error",
+                        });
                     }
                 }
             });
