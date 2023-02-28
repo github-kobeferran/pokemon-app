@@ -14,12 +14,14 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+
         $fields = $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|confirmed',
         ]);
+
 
         $user = User::create([
             'first_name' => $fields['first_name'],
@@ -40,8 +42,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $fields = $request->validate([
-            'email' => 'required|email|exists:users,email',
+        $fields = $request->validate(['email' => 'required|email',
             'password' => 'required|string',
         ]);
 
@@ -62,15 +63,28 @@ class AuthController extends Controller
 
         return response($response, 200);
     }
-
     public function logout(Request $request)
     {
-        $accessToken = $request->bearerToken();
-        $token = PersonalAccessToken::findToken($accessToken);
-        $token->delete();
+        auth()->user()->tokens()->delete();
 
         return [
             'message' => 'Logged out'
         ];
+    }
+
+    public function loginWithToken(Request $request)
+    {
+
+        $token = PersonalAccessToken::findToken($request->input('token'));
+
+        if ($token && !$token->expiresAt) {
+            $user = $token->tokenable;
+            $response = [
+                'user' => new UserResource($user),
+                'token' => $token->token,
+            ];
+
+            return response($response, 200);
+        }
     }
 }

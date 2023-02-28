@@ -1,11 +1,30 @@
 <template>
     <div class="container-fluid">
-        <router-link to="/home">Home</router-link>
-        <router-link to="/home">Home</router-link>
+        <router-link v-if="!isAuth" to="/login">Login</router-link>
+        <br>
+        <router-link v-if="!isAuth" to="/register">Register</router-link>
+        <el-button v-if="isAuth" text @click="showLogoutDialog = true">
+            Logout
+        </el-button>
+
+        <el-dialog v-model="showLogoutDialog" title="Logout" width="30%">
+            <span>Are you sure you want to log out?</span>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="showLogoutDialog = false"
+                        >Cancel</el-button
+                    >
+                    <el-button type="primary" @click="handleLogout">
+                        Ok
+                    </el-button>
+                </span>
+            </template>
+        </el-dialog>
+        <!-- <router-link to="/home">Home</router-link> -->
 
         <div class="row">
             <div class="col text-center">
-                <h1>Pokemon List</h1>
+                <h1>{{ pageTitle }}</h1>
             </div>
         </div>
 
@@ -34,18 +53,36 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { h } from "vue";
+import { ElNotification } from "element-plus";
 
 export default {
     data() {
-        return {};
+        return {
+            showLogoutDialog: false,
+        };
     },
     created() {
         this.fetchPokemons();
+        const token = localStorage.getItem("token");
+        if (token) {
+            this.loginWithToken(token);
+
+            window.axios.defaults.headers.common[
+                            "Authorization"
+                        ] = `Bearer ${token}`;
+        }
     },
 
-    mounted(){
-    },
+    mounted() {},
     computed: {
+        ...mapGetters(
+            {
+                isAuth: "getIsAuthenticated",
+                user: "getUser",
+            },
+            "auth"
+        ),
         ...mapGetters(
             {
                 pokemons: "getPokemons",
@@ -53,13 +90,29 @@ export default {
             },
             "pokemon"
         ),
+        pageTitle() {
+            if (this.isAuth) {
+                return `Hi ${this.user.first_name} ${this.user.last_name}!`;
+            } else {
+                return `Pokemon List`;
+            }
+        },
     },
     methods: {
         ...mapActions(["fetchPokemons"], "pokemon"),
+        ...mapActions(["logout", "loginWithToken"], "auth"),
         pageChanged(number) {
             this.fetchPokemons({
-                page: number
-            })
+                page: number,
+            });
+        },
+        handleLogout() {
+
+        this.logout().then(res => {
+            this.$router.push("/");
+
+            this.showLogoutDialog = false;
+        });
         },
     },
 };

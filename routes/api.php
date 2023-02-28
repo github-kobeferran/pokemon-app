@@ -19,14 +19,14 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->name('api.')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+    Route::post('/login-with-token', [AuthController::class, 'loginWithToken'])->name('login-with-token');
 
-Route::prefix('v1')->name('api.')->group(function () {
     Route::apiResources([
         'pokemons' => PokemonController::class,
     ]);
 });
 
+
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
