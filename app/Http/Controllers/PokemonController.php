@@ -97,7 +97,13 @@ class PokemonController extends Controller
             ->wherePivot('type', $fields['type'])
             ->attach($fields['pokemon_id'], ['type' => $fields['type']]);
 
-        return response(['user' => auth()->user()->load('pokemons'),
+        return response([
+            'user' => auth()->user()->load([
+                'pokemons',
+                'favoritePokemon',
+                'likedPokemons',
+                'hatedPokemons',
+            ]),
             'message' => 'Pokemon binded as ' . $fields['type'],
         ], 201);
     }
@@ -114,7 +120,14 @@ class PokemonController extends Controller
 
         auth()->user()->pokemons()->detach($fields['pokemon_id']);
 
-        return response(['user' => auth()->user()->load('pokemons'),
+        return response([
+            'user' => auth()->user()->load([
+                'pokemons',
+                'favoritePokemon',
+                'likedPokemons',
+                'hatedPokemons',
+            ]),
+
             'message' => 'Pokemon unbinded',
         ], 202);
     }

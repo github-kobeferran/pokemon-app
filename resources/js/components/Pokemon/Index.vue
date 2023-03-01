@@ -6,7 +6,6 @@
             </div>
         </div>
 
-        <!-- <Ball/> -->
 
         <el-pagination
             class="justify-content-center"
@@ -135,12 +134,9 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import { ElNotification } from "element-plus";
-import Ball from './Ball.vue'
+
 
 export default {
-    components: {
-        Ball,
-    },
     data() {
         return {};
     },
@@ -179,7 +175,7 @@ export default {
         },
         pageTitle() {
             if (this.isAuth) {
-                return `Hi ${this.user.first_name} ${this.user.last_name}!`;
+                return `Welcome  ${this.user.first_name}!`;
             } else {
                 return `Pokedex`;
             }
@@ -205,6 +201,7 @@ export default {
                     title: `Pokemon ${type}`,
                 });
             }).catch(error => {
+                console.log(error)
                  ElNotification({
                     message: error.response.data.message,
                     type: 'error'
@@ -212,7 +209,12 @@ export default {
             })
         },
         unbind(id) {
-            this.unbindPokemon({pokemon_id: id})
+            this.unbindPokemon({pokemon_id: id}).then(res => {
+
+            }).catch(error => {
+                console.log(error)
+            })
+
         },
     },
 };

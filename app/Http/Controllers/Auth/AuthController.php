@@ -33,8 +33,10 @@ class AuthController extends Controller
         $token = $user->createToken('pokemon_app_token')->plainTextToken;
 
         $response = [
-            'user' => new UserResource($user->load([
-                'pokemons'
+            'user' => new UserResource($user->load(['pokemons',
+                'favoritePokemon',
+                'likedPokemons',
+                'hatedPokemons',
             ])),
             'token' => $token,
         ];
@@ -44,7 +46,8 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $fields = $request->validate(['email' => 'required|email',
+        $fields = $request->validate([
+            'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
@@ -59,8 +62,10 @@ class AuthController extends Controller
         $token = $user->createToken('pokemon_app_token')->plainTextToken;
 
         $response = [
-            'user' => new UserResource($user->load([
-                'pokemons'
+            'user' => new UserResource($user->load(['pokemons',
+                'favoritePokemon',
+                'likedPokemons',
+                'hatedPokemons',
             ])),
             'token' => $token,
         ];
@@ -72,7 +77,7 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
 
         return [
-            'message' => 'Logged out'
+            'message' => 'Logged out',
         ];
     }
 
@@ -84,8 +89,10 @@ class AuthController extends Controller
         if ($token && !$token->expiresAt) {
             $user = $token->tokenable;
             $response = [
-                'user' => new UserResource($user->load([
-                    'pokemons'
+                'user' => new UserResource($user->load(['pokemons',
+                    'favoritePokemon',
+                    'likedPokemons',
+                    'hatedPokemons',
                 ])),
                 'token' => $token->token,
             ];

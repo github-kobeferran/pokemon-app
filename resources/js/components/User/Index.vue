@@ -133,7 +133,6 @@ export default {
         ]),
         handleView(index, row) {
             this.showDialog = true;
-
             this.fetchCurrentUser(row.id);
         },
         pageChanged(number) {

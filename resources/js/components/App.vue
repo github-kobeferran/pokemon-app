@@ -70,6 +70,7 @@
                 </div>
             </el-header>
             <el-main>
+                <Ball v-if="isAuth"/>
                 <router-view></router-view>
             </el-main>
         </el-container>
@@ -80,10 +81,13 @@
 import { mapGetters, mapActions } from "vuex";
 
 import PokemonIndex from "./Pokemon/Index.vue";
+import Ball from './Pokemon/Ball.vue'
 
 export default {
     components: {
         PokemonIndex,
+        Ball,
+
     },
     created() {
         const token = localStorage.getItem("token");
@@ -128,12 +132,19 @@ export default {
         }
     },
     methods: {
-        ...mapActions("auth", ["logout", "loginWithToken"]),
+        ...mapActions("auth", [
+            "logout",
+            "loginWithToken",
+            "resetAuthUser",
+            "resetIsAuthenticated",
+        ]),
         handleLogout() {
             this.logout().then((res) => {
+                this.activePage = 'Pokemons'
                 this.$router.push("/");
-
                 this.showLogoutDialog = false;
+                this.resetAuthUser()
+                this.resetIsAuthenticated()
             });
         },
     },

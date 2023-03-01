@@ -17,6 +17,12 @@ const mutations = {
     setUser(state, value) {
         state.user = value;
     },
+    resetAuthUser(state) {
+        state.user = null;
+    },
+    resetIsAuthenticated(state) {
+        state.isAuthenticated = false;
+    },
 };
 
 const actions = {
@@ -116,23 +122,12 @@ const actions = {
                 });
         });
     },
-
-    // loginWithToken({ commit }, token) {
-    //     return new Promise((resolve, reject) => {
-    //         axios
-    //             .post(route("api.login-with-token"), { token })
-    //             .then((response) => {
-    //                 if (response.data.user) {
-    //                     commit("setIsAuthenticated", true);
-    //                     commit("setUser", response.data.user);
-    //                     resolve(response);
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 localStorage.removeItem("token");
-    //             });
-    //     });
-    // },
+    resetAuthUser({ commit }) {
+        commit("resetAuthUser");
+    },
+    resetIsAuthenticated({ commit }) {
+        commit("resetIsAuthenticated");
+    },
 };
 
 export default {
