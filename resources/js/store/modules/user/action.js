@@ -11,6 +11,11 @@ const actions = {
         commit("setPagination", rest);
         commit("setUsers", data);
     },
+    async fetchCurrentUser({ commit }, id) {
+        const response = await axios.get(route("api.users.show", id));
+
+        commit("setCurrentUser", response.data.data);
+    },
     updateUser({ commit }, { id, fields }) {
         return new Promise((resolve, reject) => {
             axios
@@ -24,28 +29,9 @@ const actions = {
                 });
         });
     },
-
-    // async fetchPokemons({ commit }, payload) {
-    //     const response = await axios.get(
-    //         route("api.pokemons.index", {
-    //             page: payload ? payload.page : 1,
-    //         })
-    //     );
-
-    //     const { data, links, ...rest } = response.data;
-
-    //     commit("setPagination", rest);
-    //     commit("setPokemons", data);
-    // },
-    // async fetchCurrentUser({ commit }) {
-    //     const response = await axios.get("/api/user");
-    //     commit("setCurrentUser", response.data);
-    // },
-
-    // async deleteUser({ dispatch }, userId) {
-    //     await axios.delete(`/api/users/${userId}`);
-    //     dispatch("fetchUsers");
-    // },
+    resetCurrentUser({ commit }) {
+        commit("resetCurrentUser");
+    },
 };
 
 export default actions;
