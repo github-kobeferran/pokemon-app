@@ -47,12 +47,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = [
         'name',
+        'favorite_pokemon_id',
+        'liked_pokemon_ids',
+        'hated_pokemon_ids',
     ];
-
-    public function getNameAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
 
     public function pokemons()
     {
@@ -72,5 +70,28 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hatedPokemons()
     {
         return $this->belongsToMany(Pokemon::class)->wherePivot('type', 'hated');
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getFavoritePokemonIdAttribute()
+    {
+        $favorite = $this->favoritePokemon()->first();
+        return $favorite ? $favorite->id : null;
+    }
+
+    public function getLikedPokemonIdsAttribute()
+    {
+        $id = $this->likedPokemons()->pluck('pokemon_id');
+        return count($id) > 0 ? $id : [];
+    }
+
+    public function getHatedPokemonIdsAttribute()
+    {
+        $id = $this->hatedPokemons()->pluck('pokemon_id');
+        return count($id) > 0 ? $id : [];
     }
 }

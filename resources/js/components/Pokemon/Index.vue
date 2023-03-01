@@ -30,11 +30,31 @@
                 <div class="d-flex justify-content-around pb-2">
                     <span v-if="isAuth" class="like-buttons">
                         <svg
+                            v-if="hatedPokemons.includes(pokemon.id)"
+                            class="active-actions"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            width="15"
+                            height="15"
+                            @click="unbind(pokemon.id)"
+                        >
+                            <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                fill="#333"
+                                d="M313.4 479.1c26-5.2 42.9-30.5 37.7-56.5l-2.3-11.4c-5.3-26.7-15.1-52.1-28.8-75.2H464c26.5 0 48-21.5 48-48c0-18.5-10.5-34.6-25.9-42.6C497 236.6 504 223.1 504 208c0-23.4-16.8-42.9-38.9-47.1c4.4-7.3 6.9-15.8 6.9-24.9c0-21.3-13.9-39.4-33.1-45.6c.7-3.3 1.1-6.8 1.1-10.4c0-26.5-21.5-48-48-48H294.5c-19 0-37.5 5.6-53.3 16.1L202.7 73.8C176 91.6 160 121.6 160 153.7V192v48 24.9c0 29.2 13.3 56.7 36 75l7.4 5.9c26.5 21.2 44.6 51 51.2 84.2l2.3 11.4c5.2 26 30.5 42.9 56.5 37.7zM32 384H96c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H32C14.3 96 0 110.3 0 128V352c0 17.7 14.3 32 32 32z"
+                            />
+                        </svg>
+                        <svg
+                            v-else
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             width="15"
                             height="15"
                             class="inactive-actions"
+                            :class="{
+                                'd-none' : hatedPokemons.length > 2
+                            }"
+                            @click="bind(pokemon.id, 'hated')"
                         >
                             <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -44,11 +64,28 @@
                     </span>
                     <span v-if="isAuth" class="like-buttons">
                         <svg
+                            v-if="likedPokemons.includes(pokemon.id)"
+                            class="active-actions"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            width="15"
+                            height="15"
+                            @click="unbind(pokemon.id)"
+                        >
+                            <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                            <path
+                                fill="#3b5998"
+                                d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"
+                            />
+                        </svg>
+                        <svg
+                            v-else
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             width="15"
                             height="15"
                             class="inactive-actions"
+                            @click="bind(pokemon.id, 'liked')"
                         >
                             <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -58,12 +95,13 @@
                     </span>
                     <span v-if="isAuth" class="like-buttons">
                         <svg
-                            v-if="pokemon.id == this.favoritePokemon"
-                            @click="unfavorite(pokemon.id)"
+                            v-if="pokemon.id == favoritePokemon"
+                            class="active-actions"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             width="15"
                             height="15"
+                            @click="unbind(pokemon.id)"
                         >
                             <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -73,7 +111,7 @@
                         </svg>
                         <svg
                             v-else
-                            @click="favorite(pokemon.id)"
+                            @click="bind(pokemon.id, 'favorite')"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             width="15"
@@ -94,6 +132,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { ElNotification } from "element-plus";
 
 export default {
     data() {
@@ -117,11 +156,20 @@ export default {
                 return pokemon.pivot.type == "favorite";
             });
 
-            if(fave && fave.length > 0){
-                return fave[0].id
+            if (fave && fave.length > 0) {
+                return fave[0].id;
             }
 
-            return null
+            return null;
+        },
+        favoritePokemon() {
+            return this.user.favorite_pokemon_id;
+        },
+        likedPokemons() {
+            return this.user.liked_pokemon_ids;
+        },
+        hatedPokemons() {
+            return this.user.hated_pokemon_ids;
         },
         pageTitle() {
             if (this.isAuth) {
@@ -132,29 +180,29 @@ export default {
         },
     },
     methods: {
-        ...mapActions("pokemon", ["fetchPokemons"]),
+        ...mapActions("pokemon", ["fetchPokemons", "bindPokemon"]),
         pageChanged(number) {
             this.fetchPokemons({
                 page: number,
             });
         },
-        favorite(id){
-            console.log(id, 'favorite')
+        bind(id, type) {
+            this.bindPokemon({
+                pokemon_id: id,
+                type,
+            }).then(res => {
+                ElNotification({
+                    title: `Pokemon ${type}`,
+                });
+            }).catch(error => {
+                 ElNotification({
+                    message: error.response.data.message,
+                    type: 'error'
+                });
+            })
         },
-        unfavorite(id){
-            console.log(id, 'unfavorite')
-        },
-        like(id){
-            console.log(id, 'like')
-        },
-        unlike(id){
-            console.log(id, 'unlike')
-        },
-        hate(id){
-            console.log(id, 'hate')
-        },
-        unhate(id){
-            console.log(id, 'unhate')
+        unbind(id) {
+            this.unbind({pokemon_id: id})
         },
     },
 };
@@ -190,9 +238,15 @@ body {
 }
 .like-buttons:hover {
     transform: scale(1.1);
-
 }
 
+.inactive-actions {
+    opacity: 0.3;
+}
 .inactive-actions:hover {
+    opacity: 0.6 !important;
+}
+
+.active-actions:hover {
 }
 </style>
