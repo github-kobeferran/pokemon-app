@@ -7,7 +7,7 @@
     >
         <div class="row">
             <div class="col text-center">
- <svg
+                <svg
                     xmlns="http://www.w3.org/2000/svg"
                     version="1.0"
                     width="200"
@@ -53,6 +53,18 @@
             </div>
         </div>
 
+        <div class="my-2 w-50 mx-auto">
+            <el-input v-model="search" @keyup.enter="fetchWithSearch"  placeholder="Search pokemon..">
+                <template #prepend>
+                    <el-button @click="fetchWithSearch">
+                        <el-icon>
+                            <search />
+                        </el-icon>
+                    </el-button>
+                </template>
+            </el-input>
+        </div>
+
         <el-pagination
             class="justify-content-center"
             :page-size="20"
@@ -70,7 +82,7 @@
                     :alt="`photo of ${pokemon.name_formatted}`"
                 />
                 <div class="card-body">
-                    <p class="card-text text-center">
+                    <p class="card-text text-center pokemon-font">
                         {{ pokemon.name_formatted }}
                     </p>
                 </div>
@@ -186,10 +198,13 @@ export default {
     data() {
         return {
             loadingText: "Fetching Pokemons",
+            search: "",
         };
     },
     created() {
-        this.fetchPokemons();
+        if (!this.pokemons || this.pokemons.length < 1) {
+            this.fetchPokemons();
+        }
     },
     mounted() {},
     computed: {
@@ -237,9 +252,10 @@ export default {
             "unbindPokemon",
         ]),
         pageChanged(number) {
-            this.fetchPokemons({
-                page: number,
-            });
+            (this.loadingText = "Fetching Pokemons"),
+                this.fetchPokemons({
+                    page: number,
+                });
         },
         bind(pokemon, type, name) {
             this.loadingText = `Looking for ${pokemon.name_formatted}..`;
@@ -259,6 +275,8 @@ export default {
                         type: "error",
                     });
                 });
+
+            this.loadingText = `Fetching Pokemons`;
         },
         unbind(pokemon) {
             this.loadingText = `Letting go of ${pokemon.name_formatted}..`;
@@ -267,6 +285,13 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
+
+            this.loadingText = `Fetching Pokemons`;
+        },
+        fetchWithSearch() {
+            this.fetchPokemons({
+                search: this.search,
+            });
         },
     },
 };

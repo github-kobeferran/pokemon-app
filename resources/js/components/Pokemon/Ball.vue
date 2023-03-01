@@ -70,7 +70,7 @@
         </el-tooltip>
 
         <el-dialog v-if="user" v-model="showDialog" title="Your Pokedex">
-            <div class="" v-if="user.pokemons.length > 0">
+            <div class="" v-if="user.pokemons && user.pokemons.length > 0">
                 <div
                     class="row mb-2"
                     v-if="

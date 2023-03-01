@@ -16,7 +16,11 @@ class PokemonController extends Controller
      */
     public function index(Request $request)
     {
-        return Pokemon::paginate(
+
+
+        return Pokemon::when($request->query('search'), function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->query('search') . '%');
+        })->paginate(
             $request->query('perPage') ?? 33,
             ['*'],
             'page',

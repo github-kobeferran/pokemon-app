@@ -83,22 +83,23 @@ const actions = {
             axios
                 .post(route("api.logout"))
                 .then((response) => {
-                    commit("setIsAuthenticated", false);
-                    commit("setUser", null);
-                    localStorage.removeItem("token");
-
                     ElNotification({
                         message: "Logged out",
                         position: "top-left",
                     });
+                    commit("setIsAuthenticated", false);
+                    commit("setUser", null);
+                    commit("user/resetState", {}, { root: true });
+                    localStorage.removeItem("token");
                     resolve(response);
                 })
                 .catch((error) => {
-                    ElNotification({
-                        title: "Error logging out",
-                        message: error.response.data.message,
-                        type: "error",
-                    });
+                    console.log(error);
+                    // ElNotification({
+                    //     title: "Error logging out",
+                    //     message: error.response.data.message,
+                    //     type: "error",
+                    // });
 
                     reject(error);
                 });

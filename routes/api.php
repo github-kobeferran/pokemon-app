@@ -36,6 +36,8 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
     Route::post('pokemon-bind', [PokemonController::class, 'bind'])->name('pokemon.bind');
     Route::post('pokemon-unbind', [PokemonController::class, 'unbind'])->name('pokemon.unbind');
 
+    Route::post('image-upload', [UserController::class, 'imageUpload'])->name('user.image-upload');
+
     Route::apiResources([
         'users' => UserController::class,
     ]);

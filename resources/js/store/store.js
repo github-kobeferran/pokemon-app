@@ -12,7 +12,18 @@ const store = createStore({
         pokemon,
         auth,
     },
-    plugins: [createPersistedState()],
+    plugins: [
+        createPersistedState({
+            key: "vuex",
+            reducer(val) {
+                if (val.auth.isAuthenticated === false) {
+                    // val.user.token (your user token for example)
+                    return {};
+                }
+                return val;
+            },
+        }),
+    ],
 });
 
 export default store;

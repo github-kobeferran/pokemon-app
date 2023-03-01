@@ -1,6 +1,7 @@
 <template>
-    <div class="container-fluid"
-     v-loading.fullscreen.lock="loading"
+    <div
+        class="container-fluid"
+        v-loading.fullscreen.lock="loading"
         :element-loading-text="loadingText"
         style="z-index: 99999 !important"
     >
@@ -28,7 +29,69 @@
             v-model="showDialog"
             :title="`Pokemon Trainer ${selectedUser.first_name}`"
             @close="resetUser"
+            style="width: 75%"
         >
+
+           <div class="d-flex justify-content-center mb-4">
+                <el-image
+                v-if="selectedUser.image_url && selectedUser.image_url != ''"
+                style="width: 150px; height: 150px"
+                :src="selectedUser.image_url"
+                fit="cover"
+
+            />
+            </div>
+
+            <el-descriptions class="margin-top" :column="3" :size="size" border>
+                <el-descriptions-item>
+                    <template #label>
+                        <div class="cell-item">First Name</div>
+                    </template>
+                    {{ selectedUser.first_name }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template #label>
+                        <div class="cell-item">Last Name</div>
+                    </template>
+                    {{ selectedUser.last_name }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template #label>
+                        <div class="cell-item">
+                            <el-icon>
+                                <calendar />
+                            </el-icon>
+                            Date of Birth
+                        </div>
+                    </template>
+                    {{ selectedUser.date_of_birth || "- -" }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template #label>
+                        <div class="cell-item">
+                            <el-icon>
+                                <message />
+                            </el-icon>
+                            Email
+                        </div>
+                    </template>
+                    {{ selectedUser.email }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template #label>
+                        <div class="cell-item">
+                            <el-icon>
+                                <office-building />
+                            </el-icon>
+                            Address
+                        </div>
+                    </template>
+                    {{ selectedUser.address || "- -" }}
+                </el-descriptions-item>
+            </el-descriptions>
+
+
+
             <div
                 v-if="
                     selectedUser.favorite_pokemon.length > 0 &&
@@ -138,7 +201,9 @@ export default {
         };
     },
     mounted() {
-        this.fetchUsers();
+        if (!this.tableData || this.tableData.length < 1) {
+            this.fetchUsers();
+        }
     },
     computed: {
         ...mapGetters("user", {
@@ -162,7 +227,7 @@ export default {
             "resetCurrentUser",
         ]),
         handleView(index, row) {
-            this.loadingText = `Getting information about ${row.name}..`
+            this.loadingText = `Getting information about ${row.name}..`;
             this.showDialog = true;
             this.fetchCurrentUser(row.id);
         },

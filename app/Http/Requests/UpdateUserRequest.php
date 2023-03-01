@@ -27,6 +27,7 @@ class UpdateUserRequest extends FormRequest
             'last_name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
             'dob' => 'nullable|date_format:Y-m-d',
+            'address' => 'nullable|string',
         ];
     }
 }

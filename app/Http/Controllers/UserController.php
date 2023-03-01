@@ -52,9 +52,25 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        return response(new UserResource($user->load([
-            'pokemons'
+        return response(new UserResource($user->load(['pokemons',
+            'favoritePokemon',
+            'likedPokemons',
+            'hatedPokemons',
         ])))->setStatusCode(202);
+    }
+
+    public function imageUpload(Request $request)
+    {
+        $fields = $request->validate([
+            'image' => 'required|image|max:2048',
+        ]);
+
+        auth()->user()->clearMediaCollection('photos');
+        auth()->user()->addMedia($fields['image'])->toMediaCollection('photos');
+
+        return response([
+            'user' => auth()->user(),
+        ], 202);
     }
 
     /**
