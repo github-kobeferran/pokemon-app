@@ -22,6 +22,8 @@ Route::prefix('v1')->name('api.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login-with-token', [AuthController::class, 'loginWithToken'])->name('login-with-token');
 
+
+
     Route::apiResources([
         'pokemons' => PokemonController::class,
     ]);
@@ -30,6 +32,9 @@ Route::prefix('v1')->name('api.')->group(function () {
 
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::post('pokemon-bind', [PokemonController::class, 'bind'])->name('pokemon.bind');
+    Route::post('pokemon-unbind', [PokemonController::class, 'unbind'])->name('pokemon.unbind');
 
     Route::apiResources([
         'users' => UserController::class,

@@ -6,6 +6,15 @@
             </div>
         </div>
 
+        <el-pagination
+            class="justify-content-center"
+            :page-size="20"
+            layout="prev, pager, next"
+            :page-count="pagination.last_page"
+            :current-page="pagination.current_page"
+            @current-change="pageChanged"
+        />
+
         <div class="container-fluid d-flex flex-wrap justify-content-center">
             <div class="card m-3" v-for="pokemon in pokemons" :key="pokemon.id">
                 <img
@@ -25,6 +34,7 @@
                             viewBox="0 0 512 512"
                             width="15"
                             height="15"
+                            class="inactive-actions"
                         >
                             <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -38,6 +48,7 @@
                             viewBox="0 0 512 512"
                             width="15"
                             height="15"
+                            class="inactive-actions"
                         >
                             <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -48,6 +59,7 @@
                     <span v-if="isAuth" class="like-buttons">
                         <svg
                             v-if="pokemon.id == this.favoritePokemon"
+                            @click="unfavorite(pokemon.id)"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             width="15"
@@ -61,10 +73,12 @@
                         </svg>
                         <svg
                             v-else
+                            @click="favorite(pokemon.id)"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             width="15"
                             height="15"
+                            class="inactive-actions"
                         >
                             <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                             <path
@@ -75,13 +89,6 @@
                 </div>
             </div>
         </div>
-        <el-pagination
-            :page-size="20"
-            layout="prev, pager, next"
-            :page-count="pagination.last_page"
-            :current-page="pagination.current_page"
-            @current-change="pageChanged"
-        />
     </div>
 </template>
 
@@ -106,9 +113,15 @@ export default {
             user: "getUser",
         }),
         favoritePokemon() {
-            return this.user.pokemons.filter((pokemon) => {
+            const fave = this.user.pokemons.filter((pokemon) => {
                 return pokemon.pivot.type == "favorite";
-            })[0].id;
+            });
+
+            if(fave && fave.length > 0){
+                return fave[0].id
+            }
+
+            return null
         },
         pageTitle() {
             if (this.isAuth) {
@@ -124,6 +137,24 @@ export default {
             this.fetchPokemons({
                 page: number,
             });
+        },
+        favorite(id){
+            console.log(id, 'favorite')
+        },
+        unfavorite(id){
+            console.log(id, 'unfavorite')
+        },
+        like(id){
+            console.log(id, 'like')
+        },
+        unlike(id){
+            console.log(id, 'unlike')
+        },
+        hate(id){
+            console.log(id, 'hate')
+        },
+        unhate(id){
+            console.log(id, 'unhate')
         },
     },
 };
@@ -156,5 +187,12 @@ body {
 
 .like-buttons {
     cursor: pointer;
+}
+.like-buttons:hover {
+    transform: scale(1.1);
+
+}
+
+.inactive-actions:hover {
 }
 </style>

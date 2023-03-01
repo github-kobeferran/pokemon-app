@@ -11,6 +11,18 @@ const actions = {
         commit("setPagination", rest);
         commit("setPokemons", data);
     },
+    // async unfavorite({ commit }, id) {
+    //     const response = await axios.get(
+    //         route("api.pokemons.index", {
+    //             page: payload ? payload.page : 1,
+    //         })
+    //     );
+
+    //     const { data, links, ...rest } = response.data;
+
+    //     commit("setPagination", rest);
+    //     commit("setPokemons", data);
+    // },
 
     // async fetchCurrentPokemon({ commit }) {
     //     const response = await axios.get("/api/pokemon");
