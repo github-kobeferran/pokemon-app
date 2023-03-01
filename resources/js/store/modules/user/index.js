@@ -18,6 +18,7 @@ const state = {
         to: 0,
         total: 0,
     },
+    loading: false,
 };
 
 export default {

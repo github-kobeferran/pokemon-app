@@ -1,5 +1,9 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid"
+     v-loading.fullscreen.lock="loading"
+        :element-loading-text="loadingText"
+        style="z-index: 99999 !important"
+    >
         <el-table :data="filterTableData" style="width: 100%">
             <el-table-column label="Name" prop="name" />
             <el-table-column align="right">
@@ -25,69 +29,93 @@
             :title="`Pokemon Trainer ${selectedUser.first_name}`"
             @close="resetUser"
         >
-            <div class="row mb-2" v-if="selectedUser.favorite_pokemon.length > 0">
-                <div class="col d-flex justify-content-center align-items-center flex-column">
-                    <h6 >Favorite Pokemon</h6>
+            <div
+                v-if="
+                    selectedUser.favorite_pokemon.length > 0 &&
+                    selectedUser.liked_pokemons.length > 0 &&
+                    selectedUser.hated_pokemons.length > 0
+                "
+            >
+                <div
+                    class="row mb-2"
+                    v-if="selectedUser.favorite_pokemon.length > 0"
+                >
                     <div
-                        class="card"
+                        class="col d-flex justify-content-center align-items-center flex-column"
                     >
-                        <img
-                            :src="selectedUser.favorite_pokemon[0].cover_image"
-                            :alt="`photo of ${selectedUser.favorite_pokemon[0].name}`"
-                        />
-                        <div class="card-body">
-                            <p class="card-text text-center">
-                                {{ selectedUser.favorite_pokemon[0].name }}
-                            </p>
+                        <h6>Favorite Pokemon</h6>
+                        <div class="card">
+                            <img
+                                :src="
+                                    selectedUser.favorite_pokemon[0].cover_image
+                                "
+                                :alt="`photo of ${selectedUser.favorite_pokemon[0].name}`"
+                            />
+                            <div class="card-body">
+                                <p class="card-text text-center">
+                                    {{ selectedUser.favorite_pokemon[0].name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row mb-2" v-if="selectedUser.liked_pokemons.length > 0">
-                <h6 class="text-center">Pokemons liked</h6>
-                <div class="col d-flex justify-content-around">
-                    <div
-                        class="card mx-3"
-                        v-for="pokemon in selectedUser.liked_pokemons"
-                        :key="pokemon.id"
-                    >
-                        <img
-                            :src="pokemon.cover_image"
-                            :alt="`photo of ${pokemon.name}`"
-                        />
-                        <div class="card-body">
-                            <p class="card-text text-center">
-                                {{ pokemon.name }}
-                            </p>
+                <div
+                    class="row mb-2"
+                    v-if="selectedUser.liked_pokemons.length > 0"
+                >
+                    <h6 class="text-center">Pokemons liked</h6>
+                    <div class="col d-flex justify-content-around">
+                        <div
+                            class="card mx-3"
+                            v-for="pokemon in selectedUser.liked_pokemons"
+                            :key="pokemon.id"
+                        >
+                            <img
+                                :src="pokemon.cover_image"
+                                :alt="`photo of ${pokemon.name}`"
+                            />
+                            <div class="card-body">
+                                <p class="card-text text-center">
+                                    {{ pokemon.name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row mb-2" v-if="selectedUser.hated_pokemons.length > 0">
-                <h6 class="text-center">Pokemons hated</h6>
-                <div class="col d-flex justify-content-around">
-                    <div
-                        class="card mx-3"
-                        v-for="pokemon in selectedUser.hated_pokemons"
-                        :key="pokemon.id"
-                    >
-                        <img
-                            :src="pokemon.cover_image"
-                            :alt="`photo of ${pokemon.name}`"
-                        />
-                        <div class="card-body">
-                            <p class="card-text text-center">
-                                {{ pokemon.name }}
-                            </p>
+                <div
+                    class="row mb-2"
+                    v-if="selectedUser.hated_pokemons.length > 0"
+                >
+                    <h6 class="text-center">Pokemons hated</h6>
+                    <div class="col d-flex justify-content-around">
+                        <div
+                            class="card mx-3"
+                            v-for="pokemon in selectedUser.hated_pokemons"
+                            :key="pokemon.id"
+                        >
+                            <img
+                                :src="pokemon.cover_image"
+                                :alt="`photo of ${pokemon.name}`"
+                            />
+                            <div class="card-body">
+                                <p class="card-text text-center">
+                                    {{ pokemon.name }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <el-empty
+                v-else
+                description="This trainer is still finding pokemons.."
+            />
         </el-dialog>
         <el-pagination
-            class="justify-content-end"
+            class="justify-content-end mt-2"
+            background
             :page-size="20"
             layout="prev, pager, next"
             :page-count="pagination.last_page"
@@ -106,6 +134,7 @@ export default {
             search: "",
             showDialog: false,
             user: null,
+            loadingText: `Gathering trainers around..`,
         };
     },
     mounted() {
@@ -116,6 +145,7 @@ export default {
             tableData: "getUsers",
             pagination: "getUserPagination",
             selectedUser: "getCurrentUser",
+            loading: "getLoading",
         }),
         filterTableData() {
             return this.tableData.filter(
@@ -132,6 +162,7 @@ export default {
             "resetCurrentUser",
         ]),
         handleView(index, row) {
+            this.loadingText = `Getting information about ${row.name}..`
             this.showDialog = true;
             this.fetchCurrentUser(row.id);
         },
@@ -140,9 +171,9 @@ export default {
                 page: number,
             });
         },
-        resetUser(){
-            this.resetCurrentUser()
-        }
+        resetUser() {
+            this.resetCurrentUser();
+        },
     },
 };
 </script>

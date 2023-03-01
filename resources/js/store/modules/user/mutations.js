@@ -11,6 +11,9 @@ const mutations = {
     resetCurrentUser(state) {
         state.currentUser = null;
     },
+    setLoading(state, loading) {
+        state.loading = loading;
+    },
 };
 
 export default mutations;
