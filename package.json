@@ -20,6 +20,7 @@
         "@element-plus/icons-vue": "^2.0.10",
         "element-plus": "^2.2.32",
         "vue-router": "^4.1.6",
-        "vuex": "^4.0.2"
+        "vuex": "^4.0.2",
+        "vuex-persistedstate": "^4.1.0"
     }
 }

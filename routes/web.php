@@ -17,13 +17,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
+Route::get('/{vue_capture?}', function () {
     return view('welcome');
-});
-
-Route::get('/{any}', function () {
-    return redirect('/');
-})->where('any', '.*');
+})->where('vue_capture', '^(?!storage).*$');
 
 
 

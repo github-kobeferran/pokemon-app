@@ -3,12 +3,15 @@
         <div class="row">
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="centered">
-                    <h2>Login</h2>
+                    <div>
+                        <h2 class="text-white">Login</h2>
+                    </div>
                     <el-form
                         :rules="rules"
                         :model="form"
                         ref="form"
                         label-width="120px"
+                        class="form"
                     >
                         <el-form-item label="Email" prop="email">
                             <el-input
@@ -38,9 +41,11 @@
                             >
                             <el-button>Cancel</el-button>
                         </el-form-item>
+                        <p class="text-center">
+                            Not registered yet? Register
+                            <router-link to="/register">here</router-link>
+                        </p>
                     </el-form>
-                    Not registered yet? Registere
-                    <router-link to="/register">here</router-link>
                 </div>
             </div>
         </div>
@@ -49,7 +54,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
 
 export default {
     data() {
@@ -67,7 +71,7 @@ export default {
                         trigger: "blur",
                     },
                     {
-                        type: 'email',
+                        type: "email",
                         message: "Enter a correct email address",
                         trigger: "blur",
                     },
@@ -83,19 +87,17 @@ export default {
         };
     },
     computed: {
-        ...mapGetters( 'auth',
-            {
-                isAuth: "getIsAuthenticated",
-                user: "getUser",
-            },
-        ),
+        ...mapGetters("auth", {
+            isAuth: "getIsAuthenticated",
+            user: "getUser",
+        }),
     },
     methods: {
-        ...mapActions("auth", ["login"], ),
+        ...mapActions("auth", ["login"]),
         async onSubmit() {
             this.$refs["form"].validate((valid) => {
                 if (valid) {
-                    this.login(this.form).then(res => {
+                    this.login(this.form).then((res) => {
                         this.$router.push("/");
                     });
                 }
@@ -111,5 +113,10 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.form {
+    background: white;
+    padding: 30px 10px;
 }
 </style>

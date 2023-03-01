@@ -28,6 +28,7 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
  * to use in your application's views. An example is included for you.
  */
 
+
 const app = createApp({});
 
 app.component("App", App);
@@ -39,7 +40,6 @@ app.use(ZiggyVue, Ziggy);
 app.use(ElementPlus);
 
 app.use(router);
-
 
 route("home", undefined, undefined, Ziggy);
 

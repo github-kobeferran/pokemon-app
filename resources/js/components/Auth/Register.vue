@@ -9,6 +9,7 @@
                         :model="form"
                         ref="form"
                         label-width="200px"
+                        class="form"
                     >
                         <el-form-item label="First Name" prop="first_name">
                             <el-input
@@ -54,7 +55,7 @@
 
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit"
-                                >Login</el-button
+                                >Register</el-button
                             >
                             <el-button>Cancel</el-button>
                         </el-form-item>
@@ -109,6 +110,11 @@ export default {
             },
         };
     },
+    created(){
+        if(this.isAuth){
+            this.$router.push('/')
+        }
+    },
     computed: {
         ...mapGetters("auth", {
             isAuth: "getIsAuthenticated",
@@ -149,4 +155,8 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.form {
+        background: white;
+        padding: 30px 10px;
+    }
 </style>

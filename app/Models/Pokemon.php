@@ -15,13 +15,18 @@ class Pokemon extends Model
 
     protected $appends = [
         'cover_image',
+        'name_formatted',
     ];
 
     public function getCoverImageAttribute()
     {
         $api = new PokeApi;
-
         return json_decode($api->pokemon($this->id))->sprites->other->dream_world->front_default;
+    }
+
+    public function getNameFormattedAttribute()
+    {
+        return ucwords($this->name);
     }
 
     public function usersWhoFavorited()

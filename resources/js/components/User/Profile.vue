@@ -2,12 +2,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-8 col-lg-6 mx-auto">
-                <h4 class="text-center">Update Your Profile</h4>
+                <h4 class="text-center text-white">Update Your Profile</h4>
                 <el-form
                     :rules="rules"
                     :model="form"
                     ref="form"
                     label-width="200px"
+                    class="form"
                 >
                     <el-form-item label="First Name" prop="first_name">
                         <el-input
@@ -108,4 +109,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+    .form {
+        background: white;
+        padding: 30px 10px;
+    }
+</style>

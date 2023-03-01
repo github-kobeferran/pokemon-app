@@ -4,11 +4,10 @@
         class="poke-ball--container"
         draggable="true"
         :style="{ top: topPos, left: leftPos }"
-
     >
         <el-tooltip
             class="box-item"
-            effect="customized"
+            effect="light"
             content="You can drag me!"
             placement="top-start"
         >
@@ -71,75 +70,120 @@
         </el-tooltip>
 
         <el-dialog v-if="user" v-model="showDialog" title="Your Pokedex">
-            <div
-                class="row mb-2"
-                v-if="user.favorite_pokemon && user.favorite_pokemon.length > 0"
-            >
+            <div class="" v-if="user.pokemons.length > 0">
                 <div
-                    class="col d-flex justify-content-center align-items-center flex-column"
+                    class="row mb-2"
+                    v-if="
+                        user.favorite_pokemon &&
+                        user.favorite_pokemon.length > 0
+                    "
                 >
-                    <h6>Your favorite Pokemon</h6>
-                    <div class="card">
-                        <img
-                            :src="user.favorite_pokemon[0].cover_image"
-                            :alt="`photo of ${user.favorite_pokemon[0].name}`"
-                        />
-                        <div class="card-body">
-                            <p class="card-text text-center">
-                                {{ user.favorite_pokemon[0].name }}
-                            </p>
+                    <h6 class="text-center">Your favorite Pokemon</h6>
+                    <div class="row">
+                        <div class="col-12 col-md-8 col-lg-4 card mx-auto my-2">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 320 512"
+                                width="20"
+                                height="20"
+                                class="unbind-button"
+                                @click="unbind(user.favorite_pokemon[0])"
+                            >
+                                <path
+                                    fill="#ff0000"
+                                    d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"
+                                />
+                            </svg>
+                            <img
+                                :src="user.favorite_pokemon[0].cover_image"
+                                :alt="`photo of ${user.favorite_pokemon[0].name_formatted}`"
+                            />
+                            <div class="card-body">
+                                <p class="card-text text-center">
+                                    {{
+                                        user.favorite_pokemon[0].name_formatted
+                                    }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row mb-2" v-if="user.liked_pokemons.length > 0">
-                <h6 class="text-center">Pokemons that you liked</h6>
-                <div class="col d-flex justify-content-around">
-                    <div
-                        class="card mx-3"
-                        v-for="pokemon in user.liked_pokemons"
-                        :key="pokemon.id"
-                    >
-                        <img
-                            :src="pokemon.cover_image"
-                            :alt="`photo of ${pokemon.name}`"
-                        />
-                        <div class="card-body">
-                            <p class="card-text text-center">
-                                {{ pokemon.name }}
-                            </p>
+                <div class="row mb-2" v-if="user.liked_pokemons.length > 0">
+                    <h6 class="text-center">Pokemons that you liked</h6>
+                    <div class="row">
+                        <div
+                            class="col-12 col-md-8 col-lg-4 card mx-auto my-2"
+                            v-for="pokemon in user.liked_pokemons"
+                            :key="pokemon.id"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 320 512"
+                                width="20"
+                                height="20"
+                                class="unbind-button"
+                                @click="unbind(pokemon)"
+                            >
+                                <path
+                                    fill="#ff0000"
+                                    d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"
+                                />
+                            </svg>
+                            <img
+                                :src="pokemon.cover_image"
+                                :alt="`photo of ${pokemon.name_formatted}`"
+                            />
+                            <div class="card-body">
+                                <p class="card-text text-center">
+                                    {{ pokemon.name_formatted }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row mb-2" v-if="user.hated_pokemons.length > 0">
-                <h6 class="text-center">Pokemons you hate</h6>
-                <div class="col d-flex justify-content-around">
-                    <div
-                        class="card mx-3"
-                        v-for="pokemon in user.hated_pokemons"
-                        :key="pokemon.id"
-                    >
-                        <img
-                            :src="pokemon.cover_image"
-                            :alt="`photo of ${pokemon.name}`"
-                        />
-                        <div class="card-body">
-                            <p class="card-text text-center">
-                                {{ pokemon.name }}
-                            </p>
+                <div class="row mb-2" v-if="user.hated_pokemons.length > 0">
+                    <h6 class="text-center">Pokemons you hate</h6>
+                    <div class="row">
+                        <div
+                            class="col-12 col-md-8 col-lg-4 card mx-auto my-2"
+                            v-for="pokemon in user.hated_pokemons"
+                            :key="pokemon.id"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 320 512"
+                                width="20"
+                                height="20"
+                                class="unbind-button"
+                                @click="unbind(pokemon)"
+                            >
+                                <path
+                                    fill="#ff0000"
+                                    d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"
+                                />
+                            </svg>
+                            <img
+                                :src="pokemon.cover_image"
+                                :alt="`photo of ${pokemon.name_formatted}`"
+                            />
+                            <div class="card-body">
+                                <p class="card-text text-center">
+                                    {{ pokemon.name_formatted }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <el-empty v-else description="No Pokemon in here, go get some!" />
         </el-dialog>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     data() {
@@ -151,7 +195,6 @@ export default {
             pos4: 0,
             topPos: 25,
             leftPos: 100,
-
         };
     },
     computed: {
@@ -161,13 +204,13 @@ export default {
         }),
     },
     methods: {
+        ...mapActions("pokemon", ["unbindPokemon"]),
         dragMouseDown(e) {
             e.preventDefault();
             this.pos3 = e.clientX;
             this.pos4 = e.clientY;
             document.onmouseup = this.closeDragElement;
             document.onmousemove = this.elementDrag;
-
         },
         elementDrag(e) {
             e.preventDefault();
@@ -178,22 +221,34 @@ export default {
             this.topPos = this.$el.offsetTop - this.pos2 + "px";
             this.leftPos = this.$el.offsetLeft - this.pos1 + "px";
 
-            this.$refs['pokeBall'].style.pointerEvents = 'none'
+            this.$refs["pokeBall"].style.pointerEvents = "none";
         },
         closeDragElement() {
             document.onmouseup = null;
             document.onmousemove = null;
-            this.$refs['pokeBall'].style.pointerEvents = 'auto'
+            this.$refs["pokeBall"].style.pointerEvents = "auto";
         },
         showDialogFunction() {
             this.showDialog = !this.showDialog;
+        },
+        unbind(pokemon) {
+            this.loadingText = `Letting go of ${pokemon.name_formatted}..`;
+            this.showDialog = false
+            this.unbindPokemon({ pokemon_id: pokemon.id })
+                .then((res) => {})
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                this.showDialog = true
+
+                });
         },
     },
 };
 </script>
 
 <style scoped>
-
 [draggable="true"] {
     cursor: move;
 }
@@ -203,7 +258,12 @@ export default {
     top: 10%;
     right: 10%;
 
-    z-index: 999999999;
+    z-index: 9999;
+}
+
+.poke-ball {
+    animation: float 6s ease-in-out infinite;
+    animation: float 6s ease-in-out infinite;
 }
 .poke-ball:hover {
     cursor: pointer;
@@ -211,7 +271,7 @@ export default {
 }
 
 .card {
-    width: 8rem;
+    width: 10rem;
     box-shadow: 0 6px 10px rgba(211, 160, 160, 0.08),
         0 0 6px rgba(0, 0, 0, 0.05);
     transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
@@ -238,5 +298,30 @@ export default {
 .el-popper.is-customized .el-popper__arrow::before {
     background: linear-gradient(45deg, #b2e68d, #bce689);
     right: 0;
+}
+
+@keyframes float {
+    0% {
+        filter: drop-shadow(1px 1px 10px rgba(218, 197, 8, 0.3));
+        transform: translatey(0px);
+    }
+    50% {
+        filter: drop-shadow(1px 5px 10px rgba(218, 197, 8, 0.877));
+        transform: translatey(5px);
+    }
+    100% {
+        filter: drop-shadow(1px 1px 10px rgba(218, 197, 8, 0.3));
+        transform: translatey(0px);
+    }
+}
+.unbind-button {
+    position: absolute;
+    top: -5%;
+    right: -7%;
+}
+
+.unbind-button:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }
 </style>

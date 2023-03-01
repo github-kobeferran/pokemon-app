@@ -8,6 +8,9 @@ const mutations = {
     setPagination(state, pagination) {
         state.pagination = pagination;
     },
+    setLoading(state, loading) {
+        state.loading = loading;
+    },
 };
 
 export default mutations;
