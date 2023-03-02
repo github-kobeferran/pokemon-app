@@ -9,5 +9,6 @@ by Kobe Ferran
 - run command `php artisan migrate:fresh --seed`
 - run command `php artisan storage:link`
 - run command `npm install && npm run dev`
+- open a new terminal and run `php artisan test`
 
 That should give the APP_URL for the application. In case not, please try restarting your webserver and try again or try running `php artisan optimize:clear` command.
