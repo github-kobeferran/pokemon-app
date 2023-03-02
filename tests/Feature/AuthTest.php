@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -29,5 +30,16 @@ class AuthTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => $data['email'],
         ]);
+    }
+
+    public function test_login(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->postJson(route('api.login'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ])
+            ->assertStatus(200);
     }
 }
